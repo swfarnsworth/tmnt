@@ -16,6 +16,8 @@ except Exception:
     pass
 
 if __name__ == '__main__':
+    USE_CUDA = environ.get('USE_CUDA') == '1'
+
     setup_requires = [
         'numpy>=1.5.0'
     ]
@@ -35,7 +37,7 @@ if __name__ == '__main__':
         'umap-learn==0.4.6',
         'tabulate>=0.8.7'
     ]
-    if(environ.get('USE_CUDA') == '1'):
+    if USE_CUDA:
         install_requires.append('mxnet-cu101<1.8.0,>=1.6.0')
     else:
         install_requires += ['mxnet<1.8.0,>=1.6.0']
@@ -55,14 +57,14 @@ if __name__ == '__main__':
         def run(self):
             install.run(self)
 
-    setup(name=("tmnt-cu101" if environ.get('USE_CUDA') == '1' else "tmnt"),
+    setup(name=("tmnt-cu101" if USE_CUDA else "tmnt"),
           version=version,
           author="The MITRE Corporation",
           author_email="wellner@mitre.org",
           description="Topic modeling neural toolkit",
           url="https://github.com/mitre/tmnt.git",
           license='Apache',
-          classifiers = [
+          classifiers=[
               "Programming Language :: Python :: 3",
               "License :: OSI Approved :: Apache Software License",
               "Operating System :: OS Independent"
